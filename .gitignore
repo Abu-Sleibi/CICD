@@ -7,3 +7,4 @@ application-secrets.properties
 .idea/
 *.iml
 .mvn/
+.claude/
