@@ -1,0 +1,10 @@
+package com.example.hotelproject.payment.entity;
+
+public enum PaymentStatus {
+    PENDING,
+    PROCESSING,
+    COMPLETED,
+    FAILED,
+    REFUNDED,
+    PARTIALLY_REFUNDED
+}

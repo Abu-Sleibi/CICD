@@ -1,0 +1,23 @@
+package com.example.hotelproject.auth.entity;
+
+public enum Permission {
+    READ_HOTELS,
+    CREATE_HOTEL,
+    UPDATE_HOTEL,
+    DELETE_HOTEL,
+    READ_ROOMS,
+    CREATE_ROOM,
+    UPDATE_ROOM,
+    DELETE_ROOM,
+    READ_BOOKINGS,
+    CREATE_BOOKING,
+    UPDATE_BOOKING,
+    CANCEL_BOOKING,
+    READ_PAYMENTS,
+    PROCESS_PAYMENT,
+    REFUND_PAYMENT,
+    READ_NOTIFICATIONS,
+    SEND_NOTIFICATIONS,
+    MANAGE_USERS,
+    VIEW_REPORTS
+}

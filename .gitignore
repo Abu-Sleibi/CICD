@@ -1,0 +1,9 @@
+target/
+*.class
+*.jar
+.env
+application-secrets.properties
+*.log
+.idea/
+*.iml
+.mvn/

@@ -1,0 +1,3312 @@
+{
+  "info": {
+    "_postman_id": "b4fdb356-da76-4841-98e3-3d2bce02a881",
+    "name": "Hotel Booking System Testing-SWER313",
+    "description": "# 🚀 Get started here\n\nThis template guides you through CRUD operations (GET, POST, PUT, DELETE), variables, and tests.\n\n## 🔖 **How to use this template**\n\n#### **Step 1: Send requests**\n\nRESTful APIs allow you to perform CRUD operations using the POST, GET, PUT, and DELETE HTTP methods.\n\nThis collection contains each of these [request](https://learning.postman.com/docs/sending-requests/requests/) types. Open each request and click \"Send\" to see what happens.\n\n#### **Step 2: View responses**\n\nObserve the response tab for status code (200 OK), response time, and size.\n\n#### **Step 3: Send new Body data**\n\nUpdate or add new data in \"Body\" in the POST request. Typically, Body data is also used in PUT request.\n\n```\n{\n    \"name\": \"Add your name in the body\"\n}\n\n ```\n\n#### **Step 4: Update the variable**\n\nVariables enable you to store and reuse values in Postman. We have created a [variable](https://learning.postman.com/docs/sending-requests/variables/) called `base_url` with the sample request [https://postman-api-learner.glitch.me](https://postman-api-learner.glitch.me). Replace it with your API endpoint to customize this collection.\n\n#### **Step 5: Add tests in the \"Scripts\" tab**\n\nAdding tests to your requests can help you confirm that your API is working as expected. You can write test scripts in JavaScript and view the output in the \"Test Results\" tab.\n\n<img src=\"https://content.pstmn.io/fa30ea0a-373d-4545-a668-e7b283cca343/aW1hZ2UucG5n\" alt=\"\" height=\"1530\" width=\"2162\">\n\n## 💪 Pro tips\n\n- Use folders to group related requests and organize the collection.\n    \n- Add more [scripts](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/) to verify if the API works as expected and execute workflows.\n    \n\n## 💡Related templates\n\n[API testing basics](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9a37a28-055b-49cd-8c7e-97494a21eb54&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[API documentation](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9c28f47-1253-44af-a2f3-20dce4da1f18&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[Authorization methods](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=31a9a6ed-4cdf-4ced-984c-d12c9aec1c27&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "51668912",
+    "_collection_link": "https://go.postman.co/collection/51668912-b4fdb356-da76-4841-98e3-3d2bce02a881?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "1. Login For Existing User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Parse the response body as JSON\r",
+              "const jsonResponse = pm.response.json();\r",
+              "\r",
+              "// Check if the login was successful\r",
+              "if (jsonResponse && jsonResponse.accessToken) {\r",
+              "    // Set the accessToken collection variable\r",
+              "    pm.collectionVariables.set(\"accessToken\", jsonResponse.accessToken);\r",
+              "    console.log(\"Access token saved: \" + jsonResponse.accessToken.substring(0, 20) + \"...\");\r",
+              "    \r",
+              "    // Set refresh token\r",
+              "    if (jsonResponse.refreshToken) {\r",
+              "        pm.collectionVariables.set(\"refreshToken\", jsonResponse.refreshToken);\r",
+              "        console.log(\"Refresh token saved\");\r",
+              "    }\r",
+              "    \r",
+              "    // Set user ID (هون الفرق - بنحط الـ id الي رجع من الـ response)\r",
+              "    if (jsonResponse.id) {\r",
+              "        pm.collectionVariables.set(\"userId\", jsonResponse.id);\r",
+              "        console.log(\"User ID saved: \" + jsonResponse.id);\r",
+              "    }\r",
+              "    \r",
+              "    // Set guest ID (إذا بدك تستخدمه)\r",
+              "    if (jsonResponse.guestId) {\r",
+              "        pm.collectionVariables.set(\"guestId\", jsonResponse.guestId);\r",
+              "        console.log(\"Guest ID saved: \" + jsonResponse.guestId);\r",
+              "    }\r",
+              "    \r",
+              "    // Print user info\r",
+              "    console.log(\"Logged in as: \" + jsonResponse.username + \" (\" + jsonResponse.email + \")\");\r",
+              "    console.log(\"Roles: \" + JSON.stringify(jsonResponse.roles));\r",
+              "    \r",
+              "} else {\r",
+              "    console.log(\"Login failed - could not find accessToken in response\");\r",
+              "    console.log(\"Response status: \" + pm.response.status);\r",
+              "    console.log(\"Response body: \" + pm.response.text());\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"usernameOrEmail\": \"ahmad.hassan@email.com\",\r\n    \"password\": \"Guest123!\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/auth/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2. Search for available rooms",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"hotelId\": 1,\r\n    \"checkInDate\": \"2026-03-15\",\r\n    \"checkOutDate\": \"2026-03-18\",\r\n    \"guests\": 2,\r\n    \"roomsRequested\": 1\r\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/availability/check",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "availability",
+            "check"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "3. Price Calculation",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"roomTypeId\": 1,\r\n    \"checkInDate\": \"2026-04-15\",\r\n    \"checkOutDate\": \"2026-04-18\",\r\n    \"numberOfRooms\": 1\r\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/availability/calculate-price",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "availability",
+            "calculate-price"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "4. Create a booking (PENDING)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Parse the response body as JSON\r",
+              "const jsonResponse = pm.response.json();\r",
+              "\r",
+              "// Check if booking ID exists in the response\r",
+              "if (jsonResponse && jsonResponse.id) {\r",
+              "    // Set the \"bookingId\" collection variable with the booking ID value\r",
+              "    pm.collectionVariables.set(\"bookingId\", jsonResponse.id);\r",
+              "    console.log(\"Booking ID saved to collection variable: \" + pm.collectionVariables.get(\"bookingId\"));\r",
+              "} else {\r",
+              "    console.log(\"Could not find booking ID in the response body\");\r",
+              "}\r",
+              "\r",
+              "// Check if booking reference exists in the response\r",
+              "if (jsonResponse && jsonResponse.bookingReference) {\r",
+              "    // Set the \"bookingRef\" collection variable with the booking reference value\r",
+              "    pm.collectionVariables.set(\"bookingRef\", jsonResponse.bookingReference);\r",
+              "    console.log(\"Booking reference saved to collection variable: \" + pm.collectionVariables.get(\"bookingRef\"));\r",
+              "} else {\r",
+              "    console.log(\"Could not find booking reference in the response body\");\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"roomTypeId\": 1,\r\n    \"checkInDate\": \"2026-04-15\",\r\n    \"checkOutDate\": \"2026-04-18\",\r\n    \"numberOfGuests\": 2,\r\n    \"numberOfRooms\": 1,\r\n    \"guest\": {\r\n        \"fullName\": \"Ahmad Hassan\",\r\n        \"email\": \"ahmad.hassan@email.com\",\r\n        \"phone\": \"+962791234567\",\r\n        \"address\": \"Amman, Jordan\"\r\n    },\r\n    \"specialRequests\": \"Late check-in around 9 PM\"\r\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/bookings",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "5. Create a payment intent",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Parse the response body as JSON\r",
+              "const jsonResponse = pm.response.json();\r",
+              "\r",
+              "// Check if payment ID exists in the response\r",
+              "if (jsonResponse && jsonResponse.id) {\r",
+              "    // Set the \"paymentId\" collection variable with the payment ID value\r",
+              "    pm.collectionVariables.set(\"paymentId\", jsonResponse.id);\r",
+              "    console.log(\"Payment ID saved to collection variable: \" + pm.collectionVariables.get(\"paymentId\"));\r",
+              "} else {\r",
+              "    console.log(\"Could not find payment ID in the response body\");\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"bookingId\": {{bookingId}},\r\n    \"amount\": 726.00,\r\n    \"paymentMethod\": \"CREDIT_CARD\",\r\n    \"paymentDetails\": \"VISA ending in 4242\"\r\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/payments/create-intent",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "payments",
+            "create-intent"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "6. Payment processing",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/payments/{{paymentId}}/process",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "payments",
+            "{{paymentId}}",
+            "process"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "7. Booking confirmed (after successful payment)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/bookings/{{bookingId}}/confirm",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings",
+            "{{bookingId}}",
+            "confirm"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "8. Send confirmation email",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/notifications/booking/{{bookingId}}/confirmation?email=202302791@bethlehem.edu&name=Ahmad",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "notifications",
+            "booking",
+            "{{bookingId}}",
+            "confirmation"
+          ],
+          "query": [
+            {
+              "key": "email",
+              "value": "202302791@bethlehem.edu"
+            },
+            {
+              "key": "name",
+              "value": "Ahmad"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "9. Book several rooms",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"roomTypeId\": 2,\r\n    \"checkInDate\": \"2026-05-10\",\r\n    \"checkOutDate\": \"2026-05-15\",\r\n    \"numberOfGuests\": 4,\r\n    \"numberOfRooms\": 2,\r\n    \"guest\": {\r\n        \"fullName\": \"Omar Khaled\",\r\n        \"email\": \"omar.khaled@email.com\",\r\n        \"phone\": \"+962792345678\",\r\n        \"address\": \"Dubai, UAE\"\r\n    },\r\n    \"specialRequests\": \"Connecting rooms preferred\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/bookings",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "10. Book one night",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"roomTypeId\": 3,\r\n    \"checkInDate\": \"2026-04-20\",\r\n    \"checkOutDate\": \"2026-04-21\",\r\n    \"numberOfGuests\": 1,\r\n    \"numberOfRooms\": 1,\r\n    \"guest\": {\r\n        \"fullName\": \"Sara Ahmad\",\r\n        \"email\": \"sara.ahmad@email.com\",\r\n        \"phone\": \"+962793456789\",\r\n        \"address\": \"Amman, Jordan\"\r\n    }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/bookings",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "11. Long booking (one week)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"roomTypeId\": 1,\r\n    \"checkInDate\": \"2026-06-01\",\r\n    \"checkOutDate\": \"2026-06-08\",\r\n    \"numberOfGuests\": 2,\r\n    \"numberOfRooms\": 1,\r\n    \"guest\": {\r\n        \"fullName\": \"Hussein Ibrahim\",\r\n        \"email\": \"hussein.ibrahim@email.com\",\r\n        \"phone\": \"+962794567890\",\r\n        \"address\": \"New York, USA\"\r\n    }\r\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/bookings",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "12. Early booking (6 months in advance)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"roomTypeId\": 4,\r\n    \"checkInDate\": \"2026-09-15\",\r\n    \"checkOutDate\": \"2026-09-20\",\r\n    \"numberOfGuests\": 2,\r\n    \"numberOfRooms\": 1,\r\n    \"guest\": {\r\n        \"fullName\": \"Layla Hassan\",\r\n        \"email\": \"layla.hassan@email.com\",\r\n        \"phone\": \"+962791234567\",\r\n        \"address\": \"Amman, Jordan\"\r\n    }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/bookings",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "13. Booking with special requests (extra bed)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"roomTypeId\": 5,\r\n    \"checkInDate\": \"2026-04-25\",\r\n    \"checkOutDate\": \"2026-04-28\",\r\n    \"numberOfGuests\": 2,\r\n    \"numberOfRooms\": 1,\r\n    \"guest\": {\r\n        \"fullName\": \"Rania Yousef\",\r\n        \"email\": \"rania.yousef@email.com\",\r\n        \"phone\": \"+962795678901\",\r\n        \"address\": \"Riyadh, KSA\"\r\n    },\r\n    \"specialRequests\": \"Extra bed for child, vegetarian meals\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/bookings",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "14. Booking for someone else",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"roomTypeId\": 1,\r\n    \"checkInDate\": \"2026-05-01\",\r\n    \"checkOutDate\": \"2026-05-03\",\r\n    \"numberOfGuests\": 2,\r\n    \"numberOfRooms\": 1,\r\n    \"guest\": {\r\n        \"fullName\": \"Michael Brown\",\r\n        \"email\": \"michael.brown@email.com\",\r\n        \"phone\": \"+447911123456\",\r\n        \"address\": \"London, UK\"\r\n    }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/bookings",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "15. Repeat booking for the same customer (after the first booking)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"roomTypeId\": 2,\r\n    \"checkInDate\": \"2026-06-15\",\r\n    \"checkOutDate\": \"2026-06-18\",\r\n    \"numberOfGuests\": 2,\r\n    \"numberOfRooms\": 1,\r\n    \"guest\": {\r\n        \"fullName\": \"Ahmad Hassan\",\r\n        \"email\": \"ahmad.hassan@email.com\",\r\n        \"phone\": \"+962791234567\",\r\n        \"address\": \"Amman, Jordan\"\r\n    }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/bookings",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "16. Room not available - Date booked",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"hotelId\": 1,\r\n    \"roomTypeId\": 1,\r\n    \"checkInDate\": \"2026-04-15\",\r\n    \"checkOutDate\": \"2026-04-18\",\r\n    \"guests\": 2,\r\n    \"roomsRequested\": 25\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/availability/check",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "availability",
+            "check"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "17. Incorrect date (check-in after check-out)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"roomTypeId\": 1,\r\n    \"checkInDate\": \"2026-05-10\",\r\n    \"checkOutDate\": \"2026-05-05\",\r\n    \"numberOfGuests\": 2,\r\n    \"numberOfRooms\": 1,\r\n    \"guest\": {\r\n        \"fullName\": \"Test User\",\r\n        \"email\": \"test@email.com\",\r\n        \"phone\": \"+962700000001\"\r\n    }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/bookings",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "18. History in the past",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"roomTypeId\": 1,\r\n    \"checkInDate\": \"2025-01-15\",\r\n    \"checkOutDate\": \"2025-01-18\",\r\n    \"numberOfGuests\": 2,\r\n    \"numberOfRooms\": 1,\r\n    \"guest\": {\r\n        \"fullName\": \"Test User\",\r\n        \"email\": \"test@email.com\",\r\n        \"phone\": \"+962700000001\"\r\n    }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/bookings",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "19. Room capacity exceeded",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"roomTypeId\": 1,\r\n    \"checkInDate\": \"2026-05-15\",\r\n    \"checkOutDate\": \"2026-05-18\",\r\n    \"numberOfGuests\": 5,\r\n    \"numberOfRooms\": 1,\r\n    \"guest\": {\r\n        \"fullName\": \"Test User\",\r\n        \"email\": \"test@email.com\",\r\n        \"phone\": \"+962700000001\"\r\n    }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/bookings",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "20. Incomplete information - no email address",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"roomTypeId\": 1,\r\n    \"checkInDate\": \"2026-05-15\",\r\n    \"checkOutDate\": \"2026-05-18\",\r\n    \"numberOfGuests\": 2,\r\n    \"numberOfRooms\": 1,\r\n    \"guest\": {\r\n        \"fullName\": \"Test User\",\r\n        \"phone\": \"+962700000001\"\r\n    }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/bookings",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "21. Attempting to book without logging in",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"roomTypeId\": 1,\r\n    \"checkInDate\": \"2026-05-15\",\r\n    \"checkOutDate\": \"2026-05-18\",\r\n    \"numberOfGuests\": 2,\r\n    \"numberOfRooms\": 1,\r\n    \"guest\": {\r\n        \"fullName\": \"Unauthorized User\",\r\n        \"email\": \"unauth@email.com\",\r\n        \"phone\": \"+962700000001\"\r\n    }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/bookings",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "22. Payment with insufficient balance (simulation)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"bookingId\": {{bookingId}},\r\n    \"amount\": 20.00,\r\n    \"paymentMethod\": \"CREDIT_CARD\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/payments/create-intent",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "payments",
+            "create-intent"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "23. Expired card",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"bookingId\": {{bookingId}},\r\n    \"amount\": 450.00,\r\n    \"paymentMethod\": \"CREDIT_CARD\",\r\n    \"paymentDetails\": \"EXPIRED: 12/20\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/payments/create-intent",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "payments",
+            "create-intent"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "24. Change booking date",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"roomTypeId\": 1,\r\n    \"checkInDate\": \"2026-04-16\",\r\n    \"checkOutDate\": \"2026-04-19\",\r\n    \"numberOfGuests\": 2,\r\n    \"numberOfRooms\": 1,\r\n    \"guest\": {\r\n        \"fullName\": \"Ahmad Hassan\",\r\n        \"email\": \"ahmad.hassan@email.com\",\r\n        \"phone\": \"+962791234567\"\r\n    }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/bookings/{{bookingId}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings",
+            "{{bookingId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "25. Change room type (upgrade)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"roomTypeId\": 2,\r\n    \"checkInDate\": \"2026-04-15\",\r\n    \"checkOutDate\": \"2026-04-18\",\r\n    \"numberOfGuests\": 2,\r\n    \"numberOfRooms\": 1,\r\n    \"guest\": {\r\n        \"fullName\": \"Ahmad Hassan\",\r\n        \"email\": \"ahmad.hassan@email.com\",\r\n        \"phone\": \"+962791234567\"\r\n    }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/bookings/{{bookingId}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings",
+            "{{bookingId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "26. cancellation of reservation",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"reason\": \"Change of plans, will reschedule later\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/bookings/{{bookingId}}/cancel",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings",
+            "{{bookingId}}",
+            "cancel"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "27. refund",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"paymentId\": {{paymentId}},\r\n    \"amount\": 450.00,\r\n    \"reason\": \"Customer request\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/payments/refund",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "payments",
+            "refund"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "28. Attempting to book a double room",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"roomTypeId\": 1,\r\n    \"checkInDate\": \"2026-07-01\",\r\n    \"checkOutDate\": \"2026-07-05\",\r\n    \"numberOfGuests\": 2,\r\n    \"numberOfRooms\": 1,\r\n    \"guest\": {\r\n        \"fullName\": \"User One\",\r\n        \"email\": \"user1@email.com\",\r\n        \"phone\": \"+962700000001\"\r\n    }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/bookings",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "29. Searching for reservations for a specific guest",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/bookings/guests/3?page=0&size=10&sort=createdAt,desc",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings",
+            "guests",
+            "3"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "10"
+            },
+            {
+              "key": "sort",
+              "value": "createdAt,desc"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "30. Search for hotel reservations",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/bookings/hotels/1?page=0&size=20&sort=checkInDate,asc",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings",
+            "hotels",
+            "1"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "20"
+            },
+            {
+              "key": "sort",
+              "value": "checkInDate,asc"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "31. Refresh Token",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"refreshToken\": \"{{refreshToken}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/auth/refresh",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "refresh"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "32. Logout",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"refreshToken\": \"{{refreshToken}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/auth/logout",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "logout"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "33. Login For Guest User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Parse the response body as JSON\r",
+              "const jsonResponse = pm.response.json();\r",
+              "\r",
+              "// Check if the login was successful\r",
+              "if (jsonResponse && jsonResponse.accessToken) {\r",
+              "    // Save access token\r",
+              "    pm.collectionVariables.set(\"accessToken\", jsonResponse.accessToken);\r",
+              "    console.log(\"Access token saved: \" + jsonResponse.accessToken.substring(0, 20) + \"...\");\r",
+              "    \r",
+              "    // Save refresh token\r",
+              "    if (jsonResponse.refreshToken) {\r",
+              "        pm.collectionVariables.set(\"refreshToken\", jsonResponse.refreshToken);\r",
+              "        console.log(\"Refresh token saved\");\r",
+              "    }\r",
+              "    \r",
+              "    // Save user ID\r",
+              "    if (jsonResponse.id) {\r",
+              "        pm.collectionVariables.set(\"userId\", jsonResponse.id);\r",
+              "        console.log(\"User ID saved: \" + jsonResponse.id);\r",
+              "    }\r",
+              "    \r",
+              "    // Save guest ID\r",
+              "    if (jsonResponse.guestId) {\r",
+              "        pm.collectionVariables.set(\"guestId\", jsonResponse.guestId);\r",
+              "        console.log(\"Guest ID saved: \" + jsonResponse.guestId);\r",
+              "    }\r",
+              "    \r",
+              "    // Print user info\r",
+              "    console.log(\"Guest logged in:\");\r",
+              "    console.log(\"  Username: \" + jsonResponse.username);\r",
+              "    console.log(\"  Email: \" + jsonResponse.email);\r",
+              "    console.log(\"  Full Name: \" + jsonResponse.fullName);\r",
+              "    console.log(\"  Roles: \" + JSON.stringify(jsonResponse.roles));\r",
+              "    \r",
+              "    // Check if it's really a GUEST\r",
+              "    if (jsonResponse.roles && jsonResponse.roles.includes(\"GUEST\")) {\r",
+              "        console.log(\"✅ User is a GUEST - correct\");\r",
+              "    } else {\r",
+              "        console.log(\"⚠️ User is not a GUEST - check roles\");\r",
+              "    }\r",
+              "    \r",
+              "} else {\r",
+              "    console.log(\"❌ Guest login failed\");\r",
+              "    console.log(\"Response status: \" + pm.response.status);\r",
+              "    console.log(\"Response body: \" + pm.response.text());\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"usernameOrEmail\": \"layla.hassan@email.com\",\r\n    \"password\": \"Guest123!\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/auth/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "34. Get Guest Bookings",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/bookings/guests/{{guestId}}?page=0&size=10&sort=createdAt,desc",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings",
+            "guests",
+            "{{guestId}}"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "10"
+            },
+            {
+              "key": "sort",
+              "value": "createdAt,desc"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "35. Get Hotel Bookings",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/bookings/hotels/1?page=0&size=20&sort=checkInDate,asc",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings",
+            "hotels",
+            "1"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "20"
+            },
+            {
+              "key": "sort",
+              "value": "checkInDate,asc"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "36. Login As Admin",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Parse response\r",
+              "const jsonResponse = pm.response.json();\r",
+              "\r",
+              "if (pm.response.code === 200 && jsonResponse.accessToken) {\r",
+              "    // Save tokens\r",
+              "    pm.collectionVariables.set(\"adminToken\", jsonResponse.accessToken);\r",
+              "    pm.collectionVariables.set(\"refreshToken\", jsonResponse.refreshToken);\r",
+              "    pm.collectionVariables.set(\"adminId\", jsonResponse.id);\r",
+              "    \r",
+              "    // Log success\r",
+              "    console.log(\"✅ Admin logged in successfully\");\r",
+              "    console.log(\"Admin ID: \" + jsonResponse.id);\r",
+              "    console.log(\"Username: \" + jsonResponse.username);\r",
+              "    console.log(\"Roles: \" + JSON.stringify(jsonResponse.roles));\r",
+              "    \r",
+              "    // Test assertions\r",
+              "    pm.test(\"Admin login successful\", function() {\r",
+              "        pm.response.to.have.status(200);\r",
+              "        pm.expect(jsonResponse.roles).to.include(\"ADMIN\");\r",
+              "    });\r",
+              "} else {\r",
+              "    console.log(\"❌ Admin login failed: \" + pm.response.code);\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"usernameOrEmail\": \"admin\",\r\n    \"password\": \"Admin123!\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/auth/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "37. Get All Users(Admin only)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const jsonResponse = pm.response.json();\r",
+              "\r",
+              "pm.test(\"Get all users successful\", function() {\r",
+              "    pm.response.to.have.status(200);\r",
+              "    pm.expect(jsonResponse.content).to.be.an('array');\r",
+              "});\r",
+              "\r",
+              "console.log(\"Total users: \" + jsonResponse.totalElements);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{adminToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/auth/users?page=0&size=10",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "users"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "10"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "38. Create Hotel Manager (Admin only)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Parse the response\r",
+              "const jsonResponse = pm.response.json();\r",
+              "\r",
+              "// Check if request was successful\r",
+              "if (pm.response.code === 201 && jsonResponse && jsonResponse.id) {\r",
+              "    // Save manager ID to collection variables\r",
+              "    pm.collectionVariables.set(\"managerId\", jsonResponse.id);\r",
+              "    \r",
+              "    // Also save to a variable for this session\r",
+              "    pm.variables.set(\"currentManagerId\", jsonResponse.id);\r",
+              "    \r",
+              "    console.log(\"✅ Manager created successfully!\");\r",
+              "    console.log(\"Manager ID: \" + jsonResponse.id);\r",
+              "    console.log(\"Username: \" + jsonResponse.username);\r",
+              "    console.log(\"Email: \" + jsonResponse.email);\r",
+              "    console.log(\"Roles: \" + JSON.stringify(jsonResponse.roles));\r",
+              "    \r",
+              "    // Test assertions\r",
+              "    pm.test(\"Create manager successful\", function() {\r",
+              "        pm.response.to.have.status(201);\r",
+              "        pm.expect(jsonResponse.roles).to.include(\"HOTEL_MANAGER\");\r",
+              "        pm.expect(jsonResponse.id).to.not.be.null;\r",
+              "    });\r",
+              "    \r",
+              "} else {\r",
+              "    console.log(\"❌ Failed to create manager. Status: \" + pm.response.code);\r",
+              "    console.log(\"Response: \" + pm.response.text());\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{adminToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\": \"manager_new2\",\r\n    \"email\": \"new.manager2@hotel.com\",\r\n    \"password\": \"Manager123!\",\r\n    \"fullName\": \"New Hotel Manager 2\",\r\n    \"phone\": \"+962799999999\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/auth/register/manager?hotelId={{hotelId}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "register",
+            "manager"
+          ],
+          "query": [
+            {
+              "key": "hotelId",
+              "value": "{{hotelId}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "39. Toggle User Status (Admin only)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// اتأكد إن managerId موجود قبل ما تنفذ\r",
+              "const managerId = pm.collectionVariables.get(\"managerId\");\r",
+              "console.log(\"Manager ID from variables: \" + managerId);\r",
+              "\r",
+              "if (!managerId || managerId === \"null\") {\r",
+              "    console.log(\"❌ managerId is null or empty!\");\r",
+              "    pm.expect.fail(\"managerId is required\");\r",
+              "}\r",
+              "\r",
+              "pm.test(\"Toggle user status\", function() {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{adminToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/auth/users/{{managerId}}/status?enabled=false",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "users",
+            "{{managerId}}",
+            "status"
+          ],
+          "query": [
+            {
+              "key": "enabled",
+              "value": "false"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "40. Add Role to User (Admin only)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{adminToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/auth/users/{{userId}}/roles/ADMIN",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "users",
+            "{{userId}}",
+            "roles",
+            "ADMIN"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "41. View All Bookings (Admin only)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{adminToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/bookings/search?page=0&size=20",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "20"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "42. View All Payments (Admin only)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{adminToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/payments?page=0&size=20",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "payments"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "20"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "43. Delete User (Admin only)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{adminToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/auth/users/3",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "users",
+            "3"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "44. Login As Hotel Manager",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const jsonResponse = pm.response.json();\r",
+              "\r",
+              "if (pm.response.code === 200 && jsonResponse.accessToken) {\r",
+              "    pm.collectionVariables.set(\"managerToken\", jsonResponse.accessToken);\r",
+              "    pm.collectionVariables.set(\"refreshToken\", jsonResponse.refreshToken);\r",
+              "    pm.collectionVariables.set(\"managerId\", jsonResponse.id);\r",
+              "    \r",
+              "    if (jsonResponse.hotelId) {\r",
+              "        pm.collectionVariables.set(\"hotelId\", jsonResponse.hotelId);\r",
+              "    }\r",
+              "    \r",
+              "    console.log(\"✅ Hotel Manager logged in\");\r",
+              "    console.log(\"Manager ID: \" + jsonResponse.id);\r",
+              "    console.log(\"Hotel ID: \" + jsonResponse.hotelId);\r",
+              "    \r",
+              "    pm.test(\"Manager login successful\", function() {\r",
+              "        pm.response.to.have.status(200);\r",
+              "        pm.expect(jsonResponse.roles).to.include(\"HOTEL_MANAGER\");\r",
+              "    });\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"usernameOrEmail\": \"manager.grand\",\r\n    \"password\": \"Manager123!\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/auth/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "45. Create Room Type (Manager only)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const jsonResponse = pm.response.json();\r",
+              "\r",
+              "pm.test(\"Room type created\", function() {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});\r",
+              "\r",
+              "pm.collectionVariables.set(\"roomTypeId\", jsonResponse.id);\r",
+              "console.log(\"✅ Room type created with ID: \" + jsonResponse.id);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{managerToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"Ambassador Suite\",\r\n    \"description\": \"Luxury suite with city view\",\r\n    \"capacity\": 3,\r\n    \"basePrice\": 350.00,\r\n    \"amenities\": [\"King Bed\", \"Jacuzzi\", \"Mini Bar\", \"City View\"],\r\n    \"totalRooms\": 5,\r\n    \"hotelId\": {{hotelId}}\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/hotels/room-types",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "hotels",
+            "room-types"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "46. Block Dates for Maintenance (Manager only)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{managerToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"hotelId\": {{hotelId}},\r\n    \"startDate\": \"2026-06-01\",\r\n    \"endDate\": \"2026-06-05\",\r\n    \"reason\": \"Annual maintenance\",\r\n    \"roomsToBlock\": 2\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/availability/block-dates",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "availability",
+            "block-dates"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "47. View Hotel Bookings (Manager only)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{managerToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/bookings/hotels/{{hotelId}}?page=0&size=10",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings",
+            "hotels",
+            "{{hotelId}}"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "10"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "48. Get Hotel Statistics (Manager only)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{managerToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/bookings/hotels/{{hotelId}}/statistics",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings",
+            "hotels",
+            "{{hotelId}}",
+            "statistics"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "49. Update Room Type Price (Manager only)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{managerToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"Executive Suite Premium\",\r\n    \"description\": \"Luxury suite with city view\",\r\n    \"capacity\": 3,\r\n    \"basePrice\": 375.00,\r\n    \"totalRooms\": 5,\r\n    \"hotelId\": {{hotelId}}\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/hotels/room-types/{{roomTypeId}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "hotels",
+            "room-types",
+            "{{roomTypeId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "50. View All Hotels (Manager only)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{managerToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/hotels?page=0&size=10",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "hotels"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "10"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "51. Try to Access Another Hotel's Bookings",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Access denied for other hotel\", function() {\r",
+              "    pm.response.to.have.status(403);\r",
+              "});\r",
+              "console.log(\"✅ Security works: Manager cannot access other hotel's bookings\");"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{managerToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/bookings/hotels/2?page=0&size=10",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings",
+            "hotels",
+            "2"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "10"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "52. Bulk Update Availability (Manager only)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{managerToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/availability/initialize?roomTypeId={{roomTypeId}}&startDate=2026-07-01&endDate=2026-07-31",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "availability",
+            "initialize"
+          ],
+          "query": [
+            {
+              "key": "roomTypeId",
+              "value": "{{roomTypeId}}"
+            },
+            {
+              "key": "startDate",
+              "value": "2026-07-01"
+            },
+            {
+              "key": "endDate",
+              "value": "2026-07-31"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "53. Try Admin Action as Manager",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Access denied for admin action\", function() {\r",
+              "    pm.response.to.have.status(403);\r",
+              "});\r",
+              "console.log(\"✅ Security works: Manager cannot access admin endpoints\");"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{managerToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/auth/users",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "54. Register New User (Guest)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const jsonResponse = pm.response.json();\r",
+              "\r",
+              "if (pm.response.code === 201) {\r",
+              "    pm.collectionVariables.set(\"userId\", jsonResponse.id);\r",
+              "    pm.collectionVariables.set(\"guestId\", jsonResponse.id);\r",
+              "    console.log(\"✅ User created with ID: \" + jsonResponse.id);\r",
+              "    console.log(\"Username: \" + jsonResponse.username);\r",
+              "    \r",
+              "    pm.test(\"User registered successfully\", function() {\r",
+              "        pm.response.to.have.status(201);\r",
+              "        pm.expect(jsonResponse.username).to.equal(\"testuser1\");\r",
+              "    });\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\": \"testuser1\",\r\n    \"email\": \"testuser1@example.com\",\r\n    \"password\": \"Test123!\",\r\n    \"fullName\": \"Test User One\",\r\n    \"phone\": \"+962790000001\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/auth/register",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "55. Login As User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const jsonResponse = pm.response.json();\r",
+              "\r",
+              "if (pm.response.code === 200 && jsonResponse.accessToken) {\r",
+              "    pm.collectionVariables.set(\"userToken\", jsonResponse.accessToken);\r",
+              "    pm.collectionVariables.set(\"refreshToken\", jsonResponse.refreshToken);\r",
+              "    pm.collectionVariables.set(\"userId\", jsonResponse.id);\r",
+              "    pm.collectionVariables.set(\"guestId\", jsonResponse.guestId);\r",
+              "    \r",
+              "    console.log(\"✅ User logged in\");\r",
+              "    console.log(\"User ID: \" + jsonResponse.id);\r",
+              "    console.log(\"Guest ID: \" + jsonResponse.guestId);\r",
+              "    \r",
+              "    pm.test(\"Login successful\", function() {\r",
+              "        pm.response.to.have.status(200);\r",
+              "        pm.expect(jsonResponse.roles).to.include(\"GUEST\");\r",
+              "    });\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"usernameOrEmail\": \"testuser1\",\r\n    \"password\": \"Test123!\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/auth/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "id",
+      "value": "1"
+    },
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080/api/v1"
+    },
+    {
+      "key": "accessToken",
+      "value": ""
+    },
+    {
+      "key": "refreshToken",
+      "value": ""
+    },
+    {
+      "key": "userId",
+      "value": ""
+    },
+    {
+      "key": "bookingId",
+      "value": ""
+    },
+    {
+      "key": "paymentId",
+      "value": ""
+    },
+    {
+      "key": "bookingRef",
+      "value": ""
+    },
+    {
+      "key": "guestId",
+      "value": ""
+    },
+    {
+      "key": "adminId",
+      "value": ""
+    },
+    {
+      "key": "managerId",
+      "value": ""
+    },
+    {
+      "key": "hotelId",
+      "value": ""
+    },
+    {
+      "key": "roomTypeId",
+      "value": ""
+    },
+    {
+      "key": "adminToken",
+      "value": ""
+    },
+    {
+      "key": "managerToken",
+      "value": ""
+    },
+    {
+      "key": "userToken",
+      "value": ""
+    },
+    {
+      "key": "pricingRuleId",
+      "value": ""
+    }
+  ]
+}

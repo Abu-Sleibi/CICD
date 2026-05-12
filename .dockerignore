@@ -1,0 +1,8 @@
+target/
+.git/
+.idea/
+*.iml
+*.md
+*.pdf
+*.postman_collection.json
+aws/
