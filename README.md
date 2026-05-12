@@ -250,7 +250,7 @@ Educational project for SWER313 course.
 
 ---
 
-⭐ George ⭐
+⭐ The First Thing ⭐
 
 ## 📅 Assignment Due Date
 
