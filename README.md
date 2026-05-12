@@ -250,7 +250,7 @@ Educational project for SWER313 course.
 
 ---
 
-⭐ hi ⭐
+⭐ George ⭐
 
 ## 📅 Assignment Due Date
 
