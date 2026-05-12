@@ -83,7 +83,8 @@ jobs:
           aws ecs describe-task-definition \
             --task-definition hotel-booking-task \
             --region us-east-1 \
-            --query taskDefinition > task-definition.json
+            --query taskDefinition \
+            --output json > task-definition.json
           echo "Task definition downloaded successfully"
 
       - name: Fill in the new image in the task definition
