@@ -250,7 +250,7 @@ Educational project for SWER313 course.
 
 ---
 
-⭐ The First Thing ⭐
+⭐ The Second Thing ⭐
 
 ## 📅 Assignment Due Date
 
